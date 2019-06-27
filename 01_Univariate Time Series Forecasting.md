@@ -1,4 +1,4 @@
-<span style = "font-family: Calibri; font-size:4em;"> Univariate Time Series Forecasting</span>
+# Univariate Time Series Forecasting</span>
 
 <span style = "font-family: Calibri; font-size:16;">Workbook that details the various methods of predicting timeseries data with examples</span>
 <span style = "font-family: Calibri; font-size:16;">Statistical Methods</span>

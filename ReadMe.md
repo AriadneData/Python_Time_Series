@@ -14,9 +14,11 @@
 1.	Linear Regression
 2.	Random Forest
 
-**Keras LSTMs**
-1.	Vanilla LSTM
-2.	Stacked LSTM
+**Keras DL/LSTMs**
+
+1.	MLP
+2.	Vanilla LSTM
+3.	Stacked LSTM
 
 
 
