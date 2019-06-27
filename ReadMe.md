@@ -1,20 +1,22 @@
-<span style = "font-family: Calibri; font-size:4em;"> Univariate Time Series Forecasting</span>
+<span style = "font-family: Calibri; font-size:4em;"> # Univariate Time Series Forecasting
 
-<span style = "font-family: Calibri; font-size:16;">Workbook that details the various methods of predicting timeseries data with examples</span>
-<span style = "font-family: Calibri; font-size:16;">Statistical Methods</span>
+## Workbook that details the various methods of predicting timeseries data with examples
+**Statistical Methods**
 
 1.	Autoregression (AR)
 2.	Moving Average (MA)
 3.	Autoregressive Moving Average (ARMA)
 4.	Autoregressive Integrated Moving Average (ARIMA)
-6.	Seasonal Autoregressive Integrated Moving-Average with Exogenous Regressors (SARIMAX)
-11.	Holt Winter’s Exponential Smoothing (HWES)
+5.	Seasonal Autoregressive Integrated Moving-Average with Exogenous Regressors (SARIMAX)
+6.	Holt Winter’s Exponential Smoothing (HWES)
 
-<span style = "font-family: Calibri; font-size:16;">**Machine Learning Methods**</span>
-
+**Machine Learning Methods**
 1.	Linear Regression
 2.	Random Forest
-3.	LSTM
+
+**Keras LSTMs**
+1.	Vanilla LSTM
+2.	Stacked LSTM
 
 
 
@@ -39,13 +41,16 @@ The sales data appears to be at order id level so it needs to be summarised by t
 furniture_sales_weekly = pd.DataFrame(furniture_sales['Sales'].resample('W').sum())
 ```
 
+The dataframe looks like this:
+
+![Head of the DataFrame](images/pandashead.PNG)
 
 
 ## Overview of the Sales Data
 
 The chart below shows the weekly sales data. There appears to be some peaks and troughs so there is the possibility that the data has seasonality.
 
-![Weekly Sales Data for Furniture](images\Sales_Data.png)
+![Weekly Sales Data for Furniture](images/Sales_Data.png)
 
 ## Seasonal decomposition:
 
@@ -55,7 +60,7 @@ Using statsmodels (https://www.statsmodels.org/dev/index.html) it is possible to
 sm.tsa.seasonal_decompose(furniture_sales_weekly,model='addition')
 ```
 
-![](images\seasonal_decompose.png)
+![](images/seasonal_decompose.png)
 
 We can see that Sales are trending upwards and there is a certain amount of seasonality.
 
@@ -70,7 +75,7 @@ Firstly, this shows the correlation between the sales and the previous timestep.
 pd.plotting.lag_plot(furniture_sales_weekly['Sales'] )
 ```
 
-!['Correlation with Previous Timestep'](images\Timestep1correlation.png)
+!['Correlation with Previous Timestep'](images/Timestep1correlation.png)
 
 Pandas has an autocorrelation plot that allows the comparison of timesteps over the whole series.
 
@@ -80,7 +85,7 @@ pd.plotting.autocorrelation_plot(furniture_sales_weekly['Sales'])
 
 which gives:
 
-![Pandas Autocorrelation Fucntion](images\pandas_acf.png)
+![Pandas Autocorrelation Fucntion](images/pandas_acf.png)
 
 Statsmodels also has autocorrelation plot and a partial correlation plot, the lag has been set to 50 weeks or timesteps:
 
@@ -92,7 +97,7 @@ from statsmodels.graphics.tsaplots import plot_acf
 plot_acf(furniture_sales_weekly['Sales'], lags = 50)
 ```
 
-![Statsmodel Autocorrelation plot](images\statsmodels_acf.png)
+![Statsmodel Autocorrelation plot](images/statsmodels_acf.png)
 
 Partial Autocorrelation accounts for the values of the series in-between.
 
@@ -101,22 +106,18 @@ from statsmodels.graphics.tsaplots import plot_pacf
 plot_pacf(furniture_sales_weekly['Sales'], lags =50)
 ```
 
-![Statsmodel Partial Autocorrelation plot](images\statsmodels_pacf.png)
+![Statsmodel Partial Autocorrelation plot](images/statsmodels_pacf.png)
 
 The possible methods of time series forecasting have been split into three groups:
 
-1)  
+1)  [Classical Time Series Forecasting](02_ClassicalTimeSeriesForecating.md)
 
-[]: 02_ClassicalTimeSeriesForecating.md	"Classical Time Series Forecasting"
+2)  [Machine Learning Time Series Forecasting](03_MLTimeSeriesForecating.md)
 
-2) Machine Learning Time Series Forecasting
-
-3) Keras Time Series Forecasting
-
+3) [Keras Time Series Forecasting](04_DLTimeSeriesForecating.md)
 
 
 ## References
 
-Machine Learning Mastery Classical Time Series (06/2019) (https://machinelearningmastery.com/time-series-forecasting-methods-in-python-cheat-sheet/)
-An End-to-End Project on Time Series Analysis and Forecasting with Python (06/2019) (https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b)
-
+1. Machine Learning Mastery Classical Time Series (06/2019) (https://machinelearningmastery.com/time-series-forecasting-methods-in-python-cheat-sheet/)
+2. An End-to-End Project on Time Series Analysis and Forecasting with Python (06/2019) (https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b)

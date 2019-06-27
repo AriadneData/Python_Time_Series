@@ -1,15 +1,13 @@
+# Classical Time Series Forecasting
 
+[Code for this page](https://nbviewer.jupyter.org/github/AriadneData/Python_Time_Series/blob/master/TimeSeries_PoC_Classical.ipynb)
 
-
-
-<span style = "font-family: Calibri; font-size:4em;"> Classical Time Series Forecasting</span>
-
-<span style = "font-family: Calibri; font-size:16;">The Statistical Methods covered are:</span>
+## The Statistical Methods covered are:
 
 1) Auto Regression Moving Average (ARMA)
-
-
-
+2) Auto Regressive Integrated Moving Averages (ARIMA)
+3) Seasonal Auto Regressive Integrated Moving Averages with eXogenous regressors (SARIMAX)
+4) Holt Winter's Exponential Smoothing
 
 
 All the code assumes that a pandas dataframe **furniture_sales_weekly['Sales']** has been created as per the home page.
@@ -27,7 +25,7 @@ y_pred = model_fit.predict(start = '2017-03-19')
 
 The start date prediction has been set to match the Machine Learning split so that like-for-like comparisons can be made. This produced the following output:
 
-![ARMA Sales Forecast](images\ARMAResult.png)
+![ARMA Sales Forecast](images/ARMAResult.png)
 
 
 
@@ -42,13 +40,13 @@ y_pred = model_fit.predict(start = '2017-03-19')
 
 This produces the following results:
 
-![ARIMA Sales Forecast](images\ARIMAResult.png)
+![ARIMA Sales Forecast](images/ARIMAResult.png)
 
 The results are much worse than the ARMA forecast but this does not take the seasonality into account.
 
 
 
-## 3. Seasonal Auto Regressive Integrated Moving Averages with eXogenous regressors
+## 3. Seasonal Auto Regressive Integrated Moving Averages with eXogenous regressors (SARIMAX)
 
 The code below determines the best order and seasonal order combination (in a similar manner to grid search). The measure is the AIC (Akaike Information Criteria)
 
@@ -109,7 +107,7 @@ sigma2      9.498e+06   2.03e+06      4.677      0.000    5.52e+06    1.35e+07
 
 Visually these shows an improvement to the weekly sales forecasts and the error is an improvement on ARMA forecasting:
 
-![SARIMAX Forecast](images\SARIMAX.png)
+![SARIMAX Forecast](images/SARIMAX.png)
 
 SARIMAX has a useful diagnostic print:
 
@@ -117,4 +115,26 @@ SARIMAX has a useful diagnostic print:
 results.plot_diagnostics(figsize=(16,8))
 ```
 
-![SARIMAX diagnostics](images\SARIMAdiagnostics.png)
+![SARIMAX diagnostics](images/SARIMAdiagnostics.png)
+
+## 3. Holt Winter's Exponential Smoothing
+
+This comprises of three smoothing smoothings:
+1) Exponential Smoothing - Weighted Average Smoothing that is able to predict one point
+2) Double Exponential Smoothing - exponential smoothing applied to intercept and gradient
+3) Triple Exponential Smoothing - exponential smoothing based on the seasonality
+
+```python
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from random import random
+
+# fit model
+model = ExponentialSmoothing(furniture_sales_weekly['Sales'], trend = 'add')
+model_fit = model.fit()
+# make prediction - based on the start and end number of weeks
+y_pred = model_fit.predict(len(furniture_sales_weekly['Sales']) - 40,len(furniture_sales_weekly['Sales']) - 1)
+```
+
+The algorithm was unable to find the seasonality for this example database.
+
+![Holt Winter's output](images/HWES.png)
